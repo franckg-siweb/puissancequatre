@@ -4,7 +4,7 @@
 
 ## 1. Les difficultés liées à la validation
 
-Il y a plusieurs freins à la vlaidation du logiciel dans son état actuel.
+Il y a plusieurs freins à la validation du logiciel dans son état actuel.
 
 - Les méthodes de jeu sont très longues et ont une complexité cyclomatique très élevées. L'issue de ces dernières dépendent d'entrées utilisateur devant survenir au cours de l'execution de la fonction.
 
