@@ -40,7 +40,7 @@
 
         }
 
-        private static Boolean PlayAgain() {
+        private static bool PlayAgain() {
                 
                 Console.WriteLine("Jouer à un autre jeu ? Taper [R] pour changer de jeu. Taper [Echap] pour quitter.");
     
