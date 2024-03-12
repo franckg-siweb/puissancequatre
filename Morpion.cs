@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MorpionApp
 {
@@ -10,23 +7,24 @@ namespace MorpionApp
     {
         public bool quiterJeu = false;
         public bool tourDuJoueur = true;
-        public char[,] grille;
+        public Grid<char> grille;
 
         public Morpion()
         {
-            grille = new char[3, 3];
+            grille = new Grid<char>(3, 3);
+            grille.SetGrid(new char[,]
+            {
+                { ' ', ' ', ' ' },
+                { ' ', ' ', ' ' },
+                { ' ', ' ', ' ' }
+            });
         }
 
         public void BoucleJeu()
         {
             while (!quiterJeu)
             {
-                grille = new char[3, 3]
-                {
-                    { ' ', ' ', ' '},
-                    { ' ', ' ', ' '},
-                    { ' ', ' ', ' '},
-                };
+
                 while (!quiterJeu)
                 {
                     if (tourDuJoueur)
@@ -54,6 +52,7 @@ namespace MorpionApp
                         break;
                     }
                 }
+
                 if (!quiterJeu)
                 {
                     Console.WriteLine("Appuyer sur [Echap] pour quitter, [Entrer] pour rejouer.");
@@ -70,7 +69,6 @@ namespace MorpionApp
                                 goto GetKey;
                         }
                 }
-
             }
         }
 
@@ -138,15 +136,14 @@ namespace MorpionApp
                         }
                         break;
                     case ConsoleKey.Enter:
-                        if (grille[row, column] is ' ')
+                        if (grille.GetValue(row, column) is ' ')
                         {
-                            grille[row, column] = 'X';
+                            grille.SetValue(row, column, 'X');
                             moved = true;
                             quiterJeu = false;
                         }
                         break;
                 }
-
             }
         }
 
@@ -214,9 +211,9 @@ namespace MorpionApp
                         }
                         break;
                     case ConsoleKey.Enter:
-                        if (grille[row, column] is ' ')
+                        if (grille.GetValue(row, column) is ' ')
                         {
-                            grille[row, column] = 'O';
+                            grille.SetValue(row, column, 'O');
                             moved = true;
                             quiterJeu = false;
                         }
@@ -228,31 +225,31 @@ namespace MorpionApp
         public void affichePlateau()
         {
             Console.WriteLine();
-            Console.WriteLine($" {grille[0, 0]}  |  {grille[0, 1]}  |  {grille[0, 2]}");
+            Console.WriteLine($" {grille.GetValue(0, 0)}  |  {grille.GetValue(0, 1)}  |  {grille.GetValue(0, 2)}");
             Console.WriteLine("    |     |");
             Console.WriteLine("----+-----+----");
             Console.WriteLine("    |     |");
-            Console.WriteLine($" {grille[1, 0]}  |  {grille[1, 1]}  |  {grille[1, 2]}");
+            Console.WriteLine($" {grille.GetValue(1, 0)} |  {grille.GetValue(1, 1)}  |  {grille.GetValue(1, 2)}");
             Console.WriteLine("    |     |");
             Console.WriteLine("----+-----+----");
             Console.WriteLine("    |     |");
-            Console.WriteLine($" {grille[2, 0]}  |  {grille[1, 1]}  |  {grille[0, 2]}");
+            Console.WriteLine($" {grille.GetValue(2, 0)}  |  {grille.GetValue(1, 1)}  |  {grille.GetValue(0, 2)}");
         }
 
         public bool verifVictoire(char c) =>
-             grille[0, 0] == c && grille[1, 0] == c && grille[2, 0] == c ||
-             grille[0, 1] == c && grille[1, 1] == c && grille[2, 1] == c ||
-             grille[0, 2] == c && grille[1, 2] == c && grille[2, 2] == c ||
-             grille[0, 0] == c && grille[1, 1] == c && grille[2, 2] == c ||
-             grille[1, 0] == c && grille[1, 1] == c && grille[1, 2] == c ||
-             grille[2, 0] == c && grille[2, 1] == c && grille[2, 2] == c ||
-             grille[0, 0] == c && grille[1, 1] == c && grille[2, 2] == c ||
-             grille[2, 0] == c && grille[1, 1] == c && grille[0, 2] == c;
+             grille.GetValue(0, 0) == c && grille.GetValue(1, 0) == c && grille.GetValue(2, 0) == c ||
+             grille.GetValue(0, 1) == c && grille.GetValue(1, 1) == c && grille.GetValue(2, 1) == c ||
+             grille.GetValue(0, 2) == c && grille.GetValue(1, 2) == c && grille.GetValue(2, 2) == c ||
+             grille.GetValue(0, 0) == c && grille.GetValue(1, 1) == c && grille.GetValue(2, 2) == c ||
+             grille.GetValue(1, 0) == c && grille.GetValue(1, 1) == c && grille.GetValue(1, 2) == c ||
+             grille.GetValue(2, 0) == c && grille.GetValue(2, 1) == c && grille.GetValue(2, 2) == c ||
+             grille.GetValue(0, 0) == c && grille.GetValue(1, 1) == c && grille.GetValue(2, 2) == c ||
+             grille.GetValue(2, 0) == c && grille.GetValue(1, 1) == c && grille.GetValue(0, 2) == c;
 
         public bool verifEgalite() =>
-            grille[0, 0] != ' ' && grille[1, 0] != ' ' && grille[2, 0] != ' ' &&
-            grille[0, 1] != ' ' && grille[1, 1] != ' ' && grille[2, 1] != ' ' &&
-            grille[0, 2] != ' ' && grille[1, 2] != ' ' && grille[2, 2] != ' ';
+            grille.GetValue(0, 0) != ' ' && grille.GetValue(1, 0) != ' ' && grille.GetValue(2, 0) != ' ' &&
+            grille.GetValue(0, 1) != ' ' && grille.GetValue(1, 1) != ' ' && grille.GetValue(2, 1) != ' ' &&
+            grille.GetValue(0, 2) != ' ' && grille.GetValue(1, 2) != ' ' && grille.GetValue(2, 2) != ' ';
 
 
         public void finPartie(string msg)
