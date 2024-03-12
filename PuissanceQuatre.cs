@@ -4,30 +4,22 @@
     {
         public bool quiterJeu = false;
         public bool tourDuJoueur = true;
-        public char[,] grille;
+        public Grid<char> grille = new Grid<char>(4, 7);
+        private readonly int lineToWin = 4;
 
         public PuissanceQuatre()
-        {
-            grille = new char[4, 7];
-        }
+        {}
 
         public void BoucleJeu()
         {
             while (!quiterJeu)
             {
-                grille = new char[4, 7]
-                {
-                    { ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                    { ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                    { ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                    { ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                };
                 while (!quiterJeu)
                 {
                     if (tourDuJoueur)
                     {
                         tourJoueur();
-                        if (verifVictoire('X'))
+                        if (LinearEvaluator.LonguestLine(grille, 'X') >= lineToWin)
                         {
                             finPartie("Le joueur 1 à gagné !");
                             break;
@@ -36,14 +28,14 @@
                     else
                     {
                         tourJoueur2();
-                        if (verifVictoire('O'))
+                        if (LinearEvaluator.LonguestLine(grille, 'O') >= lineToWin)
                         {
                             finPartie("Le joueur 2 à gagné !");
                             break;
                         }
                     }
                     tourDuJoueur = !tourDuJoueur;
-                    if (verifEgalite())
+                    if (grille.IsFull())
                     {
                         finPartie("Aucun vainqueur, la partie se termine sur une égalité.");
                         break;
@@ -77,7 +69,7 @@
             while (!quiterJeu && !moved)
             {
                 Console.Clear();
-                affichePlateau();
+                grille.Print();
                 Console.WriteLine();
                 Console.WriteLine("Choisir une case valide est appuyer sur [Entrer]");
                 Console.SetCursorPosition(column * 6 + 1, row * 4 + 1);
@@ -141,7 +133,7 @@
                                 break;
                             }
                         }
-                        while (grille[row, column] is 'X' or 'O')
+                        while (grille.GetValue(row, column) is 'X' or 'O')
                         {
                             if (row == 0)
                             {
@@ -150,9 +142,9 @@
 
                             row = row - 1;
                         }
-                        if(grille[row, column] is ' ')
+                        if(grille.IsFree(row, column))
                         {
-                            grille[row, column] = 'X';
+                            grille.SetValue(row, column, 'X');
                             moved = true;
                             quiterJeu = false;
                         }
@@ -170,10 +162,10 @@
             while (!quiterJeu && !moved)
             {
                 Console.Clear();
-                affichePlateau();
+                grille.Print();
                 Console.WriteLine();
                 Console.WriteLine("Choisir une case valide est appuyer sur [Entrer]");
-                Console.SetCursorPosition(column * 6 + 1, row * 4 + 1);
+                Console.SetCursorPosition(column * 2, row * 2);
 
                 switch (Console.ReadKey(true).Key)
                 {
@@ -234,7 +226,7 @@
                                 break;
                             }
                         }
-                        while (grille[row, column] is 'X' or 'O')
+                        while (grille.GetValue(row, column) is 'X' or 'O')
                         {
                             if(row == 0)
                             {
@@ -243,9 +235,9 @@
 
                             row = row - 1;
                         }
-                        if (grille[row, column] is ' ')
+                        if (grille.IsFree(row, column))
                         {
-                            grille[row, column] = 'O';
+                            grille.SetValue(row, column, 'O');
                             moved = true;
                             quiterJeu = false;
                         }
@@ -254,70 +246,11 @@
             }
         }
 
-        public void affichePlateau()
-        {
-            Console.WriteLine();
-            Console.WriteLine($" {grille[0, 0]}  |  {grille[0, 1]}  |  {grille[0, 2]}  |  {grille[0, 3]}  |  {grille[0, 4]}  |  {grille[0, 5]}  |  {grille[0, 6]}");
-            Console.WriteLine("    |     |     |     |     |     |");
-            Console.WriteLine("----+-----+-----+-----+-----+-----+----");
-            Console.WriteLine("    |     |     |     |     |     |");
-            Console.WriteLine($" {grille[1, 0]}  |  {grille[1, 1]}  |  {grille[1, 2]}  |  {grille[1, 3]}  |  {grille[1, 4]}  |  {grille[1, 5]}  |  {grille[1, 6]}");
-            Console.WriteLine("    |     |     |     |     |     |");
-            Console.WriteLine("----+-----+-----+-----+-----+-----+----");
-            Console.WriteLine("    |     |     |     |     |     |");
-            Console.WriteLine($" {grille[2, 0]}  |  {grille[2, 1]}  |  {grille[2, 2]}  |  {grille[2, 3]}  |  {grille[2, 4]}  |  {grille[2, 5]}  |  {grille[1, 6]}");
-            Console.WriteLine("    |     |     |     |     |     |");
-            Console.WriteLine("----+-----+-----+-----+-----+-----+----");
-            Console.WriteLine("    |     |     |     |     |     |");
-            Console.WriteLine($" {grille[3, 0]}  |  {grille[3, 1]}  |  {grille[3, 2]}  |  {grille[3, 3]}  |  {grille[3, 4]}  |  {grille[3, 5]}  |  {grille[1, 6]}");
-            Console.WriteLine("    |     |     |     |     |     |");
-            Console.WriteLine("----+-----+-----+-----+-----+-----+----");
-        }
-
-        public bool verifVictoire(char c) =>
-             grille[0, 0] == c && grille[1, 0] == c && grille[2, 0] == c && grille[3, 0] == c ||
-             grille[0, 1] == c && grille[1, 1] == c && grille[2, 1] == c && grille[3, 1] == c ||
-             grille[0, 2] == c && grille[1, 2] == c && grille[2, 2] == c && grille[3, 2] == c ||
-             grille[0, 3] == c && grille[1, 3] == c && grille[2, 3] == c && grille[3, 3] == c ||
-             grille[0, 4] == c && grille[1, 4] == c && grille[2, 4] == c && grille[3, 4] == c ||
-             grille[0, 5] == c && grille[1, 5] == c && grille[2, 5] == c && grille[3, 5] == c ||
-             grille[0, 6] == c && grille[1, 6] == c && grille[2, 6] == c && grille[3, 6] == c ||
-             grille[0, 0] == c && grille[0, 1] == c && grille[0, 2] == c && grille[0, 3] == c ||
-             grille[0, 1] == c && grille[0, 2] == c && grille[0, 3] == c && grille[0, 4] == c ||
-             grille[0, 2] == c && grille[0, 3] == c && grille[0, 3] == c && grille[0, 5] == c ||
-             grille[0, 3] == c && grille[0, 4] == c && grille[0, 5] == c && grille[0, 6] == c ||
-             grille[1, 0] == c && grille[1, 1] == c && grille[1, 2] == c && grille[1, 3] == c ||
-             grille[1, 1] == c && grille[1, 2] == c && grille[1, 3] == c && grille[1, 4] == c ||
-             grille[1, 2] == c && grille[1, 3] == c && grille[1, 4] == c && grille[1, 5] == c ||
-             grille[1, 4] == c && grille[1, 4] == c && grille[1, 5] == c && grille[1, 6] == c ||
-             grille[2, 0] == c && grille[2, 1] == c && grille[2, 2] == c && grille[2, 3] == c ||
-             grille[2, 1] == c && grille[2, 2] == c && grille[2, 3] == c && grille[2, 4] == c ||
-             grille[2, 2] == c && grille[2, 3] == c && grille[2, 3] == c && grille[2, 5] == c ||
-             grille[2, 3] == c && grille[2, 4] == c && grille[2, 5] == c && grille[2, 6] == c ||
-             grille[3, 0] == c && grille[3, 1] == c && grille[3, 2] == c && grille[3, 3] == c ||
-             grille[3, 1] == c && grille[3, 2] == c && grille[3, 3] == c && grille[3, 4] == c ||
-             grille[3, 2] == c && grille[3, 3] == c && grille[3, 4] == c && grille[3, 5] == c ||
-             grille[3, 3] == c && grille[3, 4] == c && grille[3, 5] == c && grille[3, 6] == c ||
-             grille[0, 0] == c && grille[1, 1] == c && grille[2, 2] == c && grille[3, 3] == c ||
-             grille[0, 1] == c && grille[1, 2] == c && grille[2, 3] == c && grille[3, 4] == c ||
-             grille[0, 2] == c && grille[1, 3] == c && grille[2, 4] == c && grille[3, 5] == c ||
-             grille[0, 3] == c && grille[1, 4] == c && grille[2, 5] == c && grille[3, 6] == c ||
-             grille[0, 3] == c && grille[1, 2] == c && grille[2, 1] == c && grille[3, 0] == c ||
-             grille[0, 4] == c && grille[1, 4] == c && grille[2, 2] == c && grille[3, 1] == c ||
-             grille[0, 5] == c && grille[1, 3] == c && grille[2, 3] == c && grille[3, 2] == c ||
-             grille[0, 6] == c && grille[1, 5] == c && grille[2, 4] == c && grille[3, 3] == c;
-
-        public bool verifEgalite() =>
-            grille[0, 0] != ' ' && grille[0, 1] != ' ' && grille[0, 2] != ' ' && grille[0, 3] != ' ' && grille[0, 4] != ' ' && grille[0, 5] != ' ' && grille[0, 6] != ' ' &&
-            grille[1, 0] != ' ' && grille[1, 1] != ' ' && grille[1, 2] != ' ' && grille[1, 3] != ' ' && grille[1, 4] != ' ' && grille[1, 5] != ' ' && grille[1, 6] != ' ' &&
-            grille[2, 0] != ' ' && grille[2, 1] != ' ' && grille[1, 2] != ' ' && grille[2, 3] != ' ' && grille[2, 4] != ' ' && grille[2, 5] != ' ' && grille[2, 6] != ' ' &&
-            grille[3, 0] != ' ' && grille[3, 1] != ' ' && grille[3, 2] != ' ' && grille[3, 3] != ' ' && grille[3, 4] != ' ' && grille[3, 5] != ' ' && grille[3, 5] != ' ';
-
 
         public void finPartie(string msg)
         {
             Console.Clear();
-            affichePlateau();
+            grille.Print();
             Console.WriteLine(msg);
         }
     }
