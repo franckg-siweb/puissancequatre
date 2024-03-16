@@ -28,8 +28,7 @@ public class CsvExportTest
     [ClassData(typeof(CsvExportTestData))]
     public void ShouldPrintCsv(double amount, List<MonthlyStatus> data, string expected)
     {
-        // var csvPrinter = new CsvPrinter();
-        // Assert.Equal(expected, csvPrinter.Export(amount, data));
+        Assert.Equal(expected, CsvExport.Export(amount, data));
     }
 
 }
