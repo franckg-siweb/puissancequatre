@@ -123,11 +123,11 @@ public class ImmoLoanTest
     [ClassData(typeof(ImmoLoanMonthlyStatusTestData))]
     public void ShouldGetAllMonthlyStatus(ImmoLoan data, MonthlyStatus expected)
     {
-        // var results = data.GetAllMonthlyStatus();
-        // var result = results[expected.Month - 1];
-        // Assert.Equal(expected.Month, result.Month);
-        // Assert.Equal(expected.Paid, result.Paid);
-        // Assert.Equal(expected.Remaining, result.Remaining);
+        var results = data.GetAllMonthlyStatus();
+        var result = results[expected.Month - 1];
+        Assert.Equal(expected.Month, result.Month);
+        Assert.Equal(expected.Paid, result.Paid);
+        Assert.Equal(expected.Remaining, result.Remaining);
     }
 
 

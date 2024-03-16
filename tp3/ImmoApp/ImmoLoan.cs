@@ -20,7 +20,7 @@ public class ImmoLoan
         }
     }
 
-        public MonthlyStatus GetMonthlyStatus(int month)
+    public MonthlyStatus GetMonthlyStatus(int month)
     {
         
         if (month < 1 || month > Duration)
@@ -36,6 +36,16 @@ public class ImmoLoan
             Remaining = ExpectedTotal - paid
         };
 
+    }
+
+    public MonthlyStatus[] GetAllMonthlyStatus()
+    {
+        var result = new MonthlyStatus[(int)Duration];
+        for (int i = 1; i <= Duration; i++)
+        {
+            result[i - 1] = GetMonthlyStatus(i);
+        }
+        return result;
     }
 
 }
