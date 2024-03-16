@@ -86,14 +86,14 @@ public class ImmoLoanTest
                 ImmoLoanTestData.Data1, 1, new MonthlyStatus { 
                     Month = 1, 
                     Paid = 641, 
-                    Remaining = 74359
+                    Remaining = 76279
                 }
             };
             yield return new object[] {
                 ImmoLoanTestData.Data2, 100, new MonthlyStatus { 
                     Month = 100, 
                     Paid = 59000, 
-                    Remaining = 41000 
+                    Remaining = 47200 
                 }
             };   
             yield return new object[] {
@@ -112,10 +112,10 @@ public class ImmoLoanTest
     [ClassData(typeof(ImmoLoanMonthlyStatusTestData))]
     public void ShouldGetMonthlyStatus(ImmoLoan data, int month, MonthlyStatus expected)
     {
-        // var result = data.GetMonthlyStatus(month);
-        // Assert.Equal(expected.Month, result.Month);
-        // Assert.Equal(expected.Paid, result.Paid);
-        // Assert.Equal(expected.Remaining, result.Remaining);
+        var result = data.GetMonthlyStatus(month);
+        Assert.Equal(expected.Month, result.Month);
+        Assert.Equal(expected.Paid, result.Paid);
+        Assert.Equal(expected.Remaining, result.Remaining);
     }
 
 

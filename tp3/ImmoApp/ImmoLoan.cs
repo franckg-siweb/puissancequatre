@@ -20,4 +20,22 @@ public class ImmoLoan
         }
     }
 
+        public MonthlyStatus GetMonthlyStatus(int month)
+    {
+        
+        if (month < 1 || month > Duration)
+        {
+            throw new ArgumentOutOfRangeException("Invalid month, should be between 1 and " + Duration);
+        }
+
+        var paid = MonthlyPayment * month;
+
+        return new MonthlyStatus() {
+            Month = month,
+            Paid = paid,
+            Remaining = ExpectedTotal - paid
+        };
+
+    }
+
 }
