@@ -37,7 +37,7 @@ public class ImmoLoanTest
                 ImmoLoanTestData.Data2, 590
             };   
             yield return new object[] {
-                ImmoLoanTestData.Data2, 929
+                ImmoLoanTestData.Data3, 929
             };
         }
 
@@ -71,7 +71,7 @@ public class ImmoLoanTest
                 }
             };   
             yield return new object[] {
-                ImmoLoanTestData.Data2, 240, new MonthlyStatus { 
+                ImmoLoanTestData.Data3, 240, new MonthlyStatus { 
                     Month = 240, 
                     Paid = 929, 
                     Remaining = 0 
@@ -86,10 +86,10 @@ public class ImmoLoanTest
     [ClassData(typeof(ImmoLoanMonthlyStatusTestData))]
     public void ShouldGetMonthlyStatus(ImmoLoan data, int month, MonthlyStatus expected)
     {
-        // var result = data.GetMonthlyStatus(month);
-        // Assert.Equal(expected.Month, result.Month);
-        // Assert.Equal(expected.Paid, result.Paid);
-        // Assert.Equal(expected.Remaining, result.Remaining);
+        var result = data.GetMonthlyStatus(month);
+        Assert.Equal(expected.Month, result.Month);
+        Assert.Equal(expected.Paid, result.Paid);
+        Assert.Equal(expected.Remaining, result.Remaining);
     }
 
 
@@ -104,7 +104,7 @@ public class ImmoLoanTest
                 ImmoLoanTestData.Data2, 181
             };   
             yield return new object[] {
-                ImmoLoanTestData.Data2, int.MaxValue
+                ImmoLoanTestData.Data3, int.MaxValue
             };
         }
 
@@ -115,7 +115,7 @@ public class ImmoLoanTest
     [ClassData(typeof(ImmoLoanInvalidMonthlyStatusTestData))]
     public void ShouldNotGetMonthlyStatusWithInvalidMonth(ImmoLoan data, int month)
     {
-        // Assert.Throws<ArgumentOutOfRangeException>(() => data.GetMonthlyStatus(month));
+        Assert.Throws<ArgumentOutOfRangeException>(() => data.GetMonthlyStatus(month));
     }
 
 }
