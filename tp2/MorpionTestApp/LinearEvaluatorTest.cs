@@ -1,5 +1,3 @@
-using MorpionApp;
-
 namespace MorpionTestApp
 {
     public class LinearEvaluatorTest
