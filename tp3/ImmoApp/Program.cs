@@ -4,7 +4,7 @@ using ImmoApp;
 try {
     var data = Parser.Parse(string.Join(" ", args));
 
-    Console.WriteLine($"Monthly payment: {data.MonthlyPayment}");
+    File.WriteAllText("output.csv", CsvExport.Export(data.Amount, data.GetAllMonthlyStatus().ToList()));
 
 } catch (Exception e) {
     Console.WriteLine(e.Message);
