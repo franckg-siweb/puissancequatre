@@ -7,7 +7,7 @@ public class Parser
     public static int MAX_DURATION = 300;
 
 
-    public static Dictionary<string, double> Parse(string input)
+    public static InputData Parse(string input)
     {
         var parts = input.Split(' ');
 
@@ -41,11 +41,11 @@ public class Parser
             throw new ArgumentException("Invalid rate");
         }
 
-        return new Dictionary<string, double>
+        return new InputData
         {
-            { "Amount", amount },
-            { "Duration", duration },
-            { "Rate", rate }
+            Amount = amount,
+            Duration = duration,
+            Rate = rate
         };
     }
 
