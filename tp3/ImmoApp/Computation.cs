@@ -2,11 +2,11 @@ namespace ImmoApp;
 public class Computation
 {
 
-    public static double ComputeMonthlyPayment(double amount, double duration, double rate)
+    public static double ComputeMonthlyPayment(InputData data)
     {
-        var monthlyRate = rate / 100 / 12;
-        var divisor = Math.Pow(1 + monthlyRate, duration) - 1;
-        var result = amount * monthlyRate / divisor + amount * monthlyRate;
+        var monthlyRate = data.Rate / 100 / 12;
+        var divisor = Math.Pow(1 + monthlyRate, data.Duration) - 1;
+        var result = data.Amount * monthlyRate / divisor + data.Amount * monthlyRate;
         return Math.Round(result, 0);
     }
 

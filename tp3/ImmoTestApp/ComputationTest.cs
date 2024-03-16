@@ -9,7 +9,12 @@ public class ComputationTest
     public void ShouldComputeMonthlyPayment(double amount, double duration, double rate, double expected)
     {
 
-        var result = Computation.ComputeMonthlyPayment(amount, duration, rate);
+        var result = Computation.ComputeMonthlyPayment(new InputData
+        {
+            Amount = amount,
+            Duration = duration,
+            Rate = rate
+        });
 
         Assert.Equal(expected, result);
 

@@ -14,9 +14,9 @@ public class ParserTests
 
         var result = Parser.Parse(input);
 
-        Assert.Equal(amount, result["Amount"]);
-        Assert.Equal(duration, result["Duration"]);
-        Assert.Equal(rate, result["Rate"]);
+        Assert.Equal(amount, result.Amount);
+        Assert.Equal(duration, result.Duration);
+        Assert.Equal(rate, result.Rate);
 
     }
 

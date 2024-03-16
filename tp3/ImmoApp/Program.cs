@@ -4,7 +4,7 @@ using ImmoApp;
 try {
     var data = Parser.Parse(string.Join(" ", args));
 
-    var monthlyPayment = Computation.ComputeMonthlyPayment(data.Amount, data.Duration, data.Rate);
+    var monthlyPayment = Computation.ComputeMonthlyPayment(data);
 
     Console.WriteLine($"Monthly payment: {monthlyPayment}");
 
