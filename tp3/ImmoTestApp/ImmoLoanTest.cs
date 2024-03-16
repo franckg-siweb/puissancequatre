@@ -83,21 +83,21 @@ public class ImmoLoanTest
         public IEnumerator<object[]> GetEnumerator()
         {
             yield return new object[] {
-                ImmoLoanTestData.Data1, 1, new MonthlyStatus { 
+                ImmoLoanTestData.Data1, new MonthlyStatus { 
                     Month = 1, 
                     Paid = 641, 
                     Remaining = 76279
                 }
             };
             yield return new object[] {
-                ImmoLoanTestData.Data2, 100, new MonthlyStatus { 
+                ImmoLoanTestData.Data2, new MonthlyStatus { 
                     Month = 100, 
                     Paid = 59000, 
                     Remaining = 47200 
                 }
             };   
             yield return new object[] {
-                ImmoLoanTestData.Data3, 240, new MonthlyStatus { 
+                ImmoLoanTestData.Data3, new MonthlyStatus { 
                     Month = 240, 
                     Paid = 222960,
                     Remaining = 0,
@@ -110,9 +110,9 @@ public class ImmoLoanTest
 
     [Theory]
     [ClassData(typeof(ImmoLoanMonthlyStatusTestData))]
-    public void ShouldGetMonthlyStatus(ImmoLoan data, int month, MonthlyStatus expected)
+    public void ShouldGetMonthlyStatus(ImmoLoan data, MonthlyStatus expected)
     {
-        var result = data.GetMonthlyStatus(month);
+        var result = data.GetMonthlyStatus(expected.Month);
         Assert.Equal(expected.Month, result.Month);
         Assert.Equal(expected.Paid, result.Paid);
         Assert.Equal(expected.Remaining, result.Remaining);
