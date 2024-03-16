@@ -14,4 +14,10 @@ public class ImmoLoan
         } 
     }
 
+    public double ExpectedTotal {
+        get {
+            return MonthlyPayment * Duration;
+        }
+    }
+
 }
