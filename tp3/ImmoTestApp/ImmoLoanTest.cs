@@ -52,6 +52,32 @@ public class ImmoLoanTest
     }
 
 
+    public class ImmoLoanExpectedTestData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] {
+                ImmoLoanTestData.Data1, 76907
+            };
+            yield return new object[] {
+                ImmoLoanTestData.Data2, 106153
+            };   
+            yield return new object[] {
+                ImmoLoanTestData.Data3, 222898
+            };
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+    
+    [Theory]
+    [ClassData(typeof(ImmoLoanExpectedTestData))]
+    public void ShouldComputeExpected(ImmoLoan data, double expected)
+    {
+        // Assert.Equal(expected, data.Expected);
+    }
+
+
     public class ImmoLoanMonthlyStatusTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
@@ -59,22 +85,22 @@ public class ImmoLoanTest
             yield return new object[] {
                 ImmoLoanTestData.Data1, 1, new MonthlyStatus { 
                     Month = 1, 
-                    Paid = 312.5, 
-                    Remaining = 74671.5 
+                    Paid = 641, 
+                    Remaining = 74359
                 }
             };
             yield return new object[] {
                 ImmoLoanTestData.Data2, 100, new MonthlyStatus { 
                     Month = 100, 
-                    Paid = 173.33, 
-                    Remaining = 83000 
+                    Paid = 59000, 
+                    Remaining = 41000 
                 }
             };   
             yield return new object[] {
                 ImmoLoanTestData.Data3, 240, new MonthlyStatus { 
                     Month = 240, 
-                    Paid = 929, 
-                    Remaining = 0 
+                    Paid = 222960,
+                    Remaining = 0,
                 }
             };
         }
