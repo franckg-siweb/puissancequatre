@@ -7,7 +7,7 @@ public class Parser
     public static int MAX_DURATION = 300;
 
 
-    public static InputData Parse(string input)
+    public static ImmoLoan Parse(string input)
     {
         var parts = input.Split(' ');
 
@@ -41,7 +41,7 @@ public class Parser
             throw new ArgumentException("Invalid rate");
         }
 
-        return new InputData
+        return new ImmoLoan
         {
             Amount = amount,
             Duration = duration,

@@ -4,9 +4,7 @@ using ImmoApp;
 try {
     var data = Parser.Parse(string.Join(" ", args));
 
-    var monthlyPayment = Computation.ComputeMonthlyPayment(data);
-
-    Console.WriteLine($"Monthly payment: {monthlyPayment}");
+    Console.WriteLine($"Monthly payment: {data.MonthlyPayment}");
 
 } catch (Exception e) {
     Console.WriteLine(e.Message);
